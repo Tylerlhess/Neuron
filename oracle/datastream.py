@@ -1,7 +1,6 @@
-from serverside import *
+from oracle.serverside import *
 from flask import jsonify
 import json
-import squawker_errors
 import requests, time
 
 

@@ -5,7 +5,7 @@ import json
 import time
 import requests
 import hashlib
-from serverside import signmessage, verifymessage, ipfs
+from oracle.serverside import signmessage, verifymessage, ipfs
 from satorineuron import config, logging
 
 
@@ -123,8 +123,8 @@ class Oracle:
             session.headers.update(self.headers[ip_address])
             result = session.get(f"https://{ip_address}:{port}{URI}")
         return session, result
-    
-            
+
+
 
 
          
