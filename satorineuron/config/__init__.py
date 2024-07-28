@@ -54,6 +54,10 @@ def flaskPort():
     return get().get(verbose('flaskPort'), '24601')
 
 
+def flaskAPIPort():
+    return get().get(verbose('flaskAPIPort'), '24611')
+
+
 def nodejsPort():
     return get().get(verbose('nodejsPort'), '24686')
 
