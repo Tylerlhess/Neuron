@@ -21,7 +21,7 @@ class Oracle:
     an oracle is a service that provides a prediction
     '''
 
-    def __init__(self, config = config):
+    def __init__(self):
         self.streams_dir = config.get('streams_dir', None)
         if self.streams_dir:
             self.build_streams()
