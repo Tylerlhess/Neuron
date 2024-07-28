@@ -30,7 +30,6 @@ from satorineuron import VERSION, MOTO, config
 from satorineuron import logging
 from satorineuron.relay import acceptRelaySubmission, processRelayCsv, generateHookFromTarget, registerDataStream
 from satorineuron.web import forms
-from satorineuron.init.start import StartupAPI
 from satorineuron.web.utils import deduceCadenceString, deduceOffsetString
 from satorineuron.oracle import Oracle
 
