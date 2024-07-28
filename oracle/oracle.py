@@ -6,7 +6,8 @@ import time
 import requests
 import hashlib
 from oracle.serverside import signmessage, verifymessage, ipfs
-from satorineuron import config, logging
+from satorineuron import config
+from satorineuron import logging
 
 
 def get_key_from_walletPath(path: str=None):
