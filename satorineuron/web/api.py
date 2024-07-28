@@ -31,7 +31,7 @@ from satorineuron import logging
 from satorineuron.relay import acceptRelaySubmission, processRelayCsv, generateHookFromTarget, registerDataStream
 from satorineuron.web import forms
 from satorineuron.web.utils import deduceCadenceString, deduceOffsetString
-from satorineuron.oracle import Oracle
+from oracle import Oracle
 
 logging.info(f'verison: {VERSION}', print=True)
 
