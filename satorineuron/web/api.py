@@ -64,7 +64,7 @@ CORS(app, origins=[{
 ###############################################################################
 while True:
     try:
-        oracle = Oracle(config.get())
+        oracle = Oracle()
         break
     except ConnectionError as e:
         # try again...
