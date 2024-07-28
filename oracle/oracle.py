@@ -23,8 +23,12 @@ class Oracle:
 
     def __init__(self):
         self.streams_dir = config.get('streams_dir', None)
-        if self.streams_dir:
-            self.build_streams()
+        try:
+            if self.streams_dir:
+                self.build_streams()
+        except Exception as e:
+            logging.info(f"Issue importing streams {type(e)} {str(e)}")
+    
         self.lastblock = None
         self.walletPath = config.walletPath()
         self.wallet_address = config.get('wallet', None)
