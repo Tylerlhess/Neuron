@@ -30,6 +30,7 @@ class Oracle:
         except Exception as e:
             logging.info(f"Issue importing streams {type(e)} {str(e)}")
             self.streams_dir = None
+            self.streams = []
         self.lastblock = None
         self.walletPath = config.walletPath()
         with open(self.walletPath + '/wallet.yaml', 'r') as f:
