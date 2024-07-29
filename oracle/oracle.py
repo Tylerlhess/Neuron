@@ -129,7 +129,7 @@ class Oracle:
         session = self.sessions[ip_address]
         if ip_address in self.headers:
             session.headers.update(self.headers[ip_address])
-        result = session.get(f"https://{ip_address}:{port}{URI}")
+        result = session.get(f"http://{ip_address}:{port}{URI}")
         if result.status_code == 401:
             challenge = result.json["challenge"]
             logging.info(f"challenge has been set to {challenge}")
@@ -137,7 +137,7 @@ class Oracle:
             self.headers[ip_address]["X-Signature"] = signature
             self.headers[ip_address]["X-Address"] = self.wallet_address
             session.headers.update(self.headers[ip_address])
-            result = session.get(f"https://{ip_address}:{port}{URI}")
+            result = session.get(f"http://{ip_address}:{port}{URI}")
         return session, result
     
     def connectToOracleFromIP(self, ip_address, port, URI):
@@ -146,7 +146,7 @@ class Oracle:
         session = self.sessions[ip_address]
         if ip_address in self.headers:
             session.headers.update(self.headers[ip_address])
-        result = session.get(f"https://{ip_address}:{port}{URI}")
+        result = session.get(f"http://{ip_address}:{port}{URI}")
         if result.status_code == 401:
             challenge = result.json["challenge"]
             logging.info(f"challenge has been set to {challenge}")
@@ -154,7 +154,7 @@ class Oracle:
             self.headers[ip_address]["X-Signature"] = signature
             self.headers[ip_address]["X-Address"] = self.wallet_address
             session.headers.update(self.headers[ip_address])
-            result = session.get(f"https://{ip_address}:{port}{URI}")
+            result = session.get(f"http://{ip_address}:{port}{URI}")
         return session, result
 
 
