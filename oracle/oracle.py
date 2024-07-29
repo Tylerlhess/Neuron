@@ -36,7 +36,10 @@ class Oracle:
             self.walletDetails = yaml.safe_load(f)
             self.wallet_address = self.walletDetails["evr"]["address"]
             self.privkey = self.walletDetails["privateKey"]
-        self.dns = DNS(config.get('dns_ipfs_hash', {}), self)
+        try:
+            self.dns = DNS(config.get('dns_ipfs_hash', {}), self)
+        except:
+            self.dns = DNS(block_hash=None, oracle=self)
         self.headers = {}
 
 
