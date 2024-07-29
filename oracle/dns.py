@@ -13,15 +13,15 @@ class DNS():
         if block_hash:
             try:
                 self.raw_dns = self.get_raw_dns()
-                self.ip_address = self.raw_dns["ip_address"]
-                self.ports = {portname: portnumber for portname, portnumber in self.raw_dns["ports"]}
+                self._ip_address = self.raw_dns["ip_address"]
+                self._ports = {portname: portnumber for portname, portnumber in self.raw_dns["ports"]}
                 
             except:
                 raise squawker_errors.NotMessage(f"No dns in ipfs hash {block_hash}")
         else: 
             self.raw_dns = None
-            self.ip_address = None
-            self.ports = {}
+            self._ip_address = None
+            self._ports = {}
         
 
     def __str__(self):
@@ -43,11 +43,11 @@ class DNS():
 
     @property
     def ip_address(self):
-        return self.ip_address
+        return self._ip_address
 
     @property
     def ports(self):
-        return self.ports
+        return self._ports
     
     @property
     def data_streams(self):
@@ -67,7 +67,7 @@ class DNS():
     
     @ip_address.setter
     def ip_address(self, ip_address):
-        self.ip_address = ip_address
+        self._ip_address = ip_address
 
     def add_port(self, port):
         port_name, port_number = port
