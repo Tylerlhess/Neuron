@@ -6,8 +6,10 @@ class DNS():
     def __init__(self, block_hash: str=None, oracle=None):
         self.block_hash = block_hash
         self.oracle = oracle
-        self.data_streams = self.oracle.get_streams()
-
+        try:
+            self.data_streams = self.oracle.get_streams()
+        except:
+            self.data_streams = []
         if block_hash:
             try:
                 self.raw_dns = self.get_raw_dns()
