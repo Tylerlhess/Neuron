@@ -5,7 +5,7 @@ import json
 import time
 import requests
 import hashlib
-import pyaml
+import yaml
 from oracle.serverside import signmessage, verifymessage, ipfs
 from satorineuron import config
 from satorineuron import logging
@@ -32,7 +32,7 @@ class Oracle:
             self.streams_dir = None
         self.lastblock = None
         self.walletPath = config.walletPath()
-        self.wallet_address = pyaml.safe_load(self.walletPath)["evr"]["address"]
+        self.wallet_address = yaml.safe_load(self.walletPath)["evr"]["address"]
         self.privkey = get_key_from_walletPath(self.walletPath)
         self.dns = DNS(config.get('dns_ipfs_hash', {}), self)
         self.headers = {}
