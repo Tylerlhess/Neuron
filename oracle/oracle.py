@@ -41,6 +41,7 @@ class Oracle:
             self.dns = DNS(config.get('dns_ipfs_hash', {}), self)
         except:
             self.dns = DNS(block_hash=None, oracle=self)
+        self.sessions = {}
         self.headers = {}
 
 
