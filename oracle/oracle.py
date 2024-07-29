@@ -11,11 +11,11 @@ from satorineuron import config
 from satorineuron import logging
 
 
-def get_key_from_walletPath(path: str=None):
-    with open(path, 'r') as f:
-        for line in f.readlines():
-            if "privateKey" in line:
-                return line.split(":")[1].strip()
+# def get_key_from_walletPath(path: str=None):
+#     with open(path, 'r') as f:
+#         for line in f.readlines():
+#             if "privateKey" in line:
+#                 return line.split(":")[1].strip()
 
 class Oracle:
     '''
@@ -32,8 +32,10 @@ class Oracle:
             self.streams_dir = None
         self.lastblock = None
         self.walletPath = config.walletPath()
-        self.wallet_address = yaml.safe_load(self.walletPath)["evr"]["address"]
-        self.privkey = get_key_from_walletPath(self.walletPath)
+        with open(self.walletPath, 'r') as f:
+            self.walletDetails = yaml.safe_load(f)
+            self.wallet_address = self.walletDetails["evr"]["address"]
+            self.privkey = self.walletDetails["privkey"]
         self.dns = DNS(config.get('dns_ipfs_hash', {}), self)
         self.headers = {}
 
