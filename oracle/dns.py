@@ -7,9 +7,9 @@ class DNS():
         self.block_hash = block_hash
         self.oracle = oracle
         try:
-            self.data_streams = self.oracle.get_streams()
+            self._data_streams = self.oracle.get_streams()
         except:
-            self.data_streams = []
+            self._data_streams = []
         if block_hash:
             try:
                 self.raw_dns = self.get_raw_dns()
@@ -51,7 +51,12 @@ class DNS():
     
     @property
     def data_streams(self):
-        return self.data_streams
+        return self._data_streams
+    
+    @data_streams.setter
+    def data_streams(self, value):
+        self._data_streams = value
+
     
     @property
     def ipfs_hash(self):
