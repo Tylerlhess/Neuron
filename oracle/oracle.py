@@ -32,7 +32,7 @@ class Oracle:
             self.streams_dir = None
         self.lastblock = None
         self.walletPath = config.walletPath()
-        with open(self.walletPath, 'r') as f:
+        with open(self.walletPath + '/wallet.yaml', 'r') as f:
             self.walletDetails = yaml.safe_load(f)
             self.wallet_address = self.walletDetails["evr"]["address"]
             self.privkey = self.walletDetails["privkey"]
