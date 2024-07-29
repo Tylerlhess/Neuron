@@ -26,7 +26,7 @@ from satorilib.concepts.structs import StreamId, StreamOverviews
 from satorilib.api.wallet.wallet import TransactionFailure
 from satorilib.api.time import timeToSeconds
 from satorilib.api.wallet import RavencoinWallet, EvrmoreWallet
-from satorineuron import VERSION, MOTO, config
+from satorineuron import VERSION, MOTTO, config
 from satorineuron import logging
 from satorineuron.relay import acceptRelaySubmission, processRelayCsv, generateHookFromTarget, registerDataStream
 from satorineuron.web import forms
