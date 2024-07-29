@@ -58,8 +58,11 @@ class Oracle:
         '''
         get a stream by id
         '''
-        return [stream.topic() for stream in self.streams]
-    
+        if len(self.streams) > 0:
+            return [stream.topic() for stream in self.streams]
+        else:
+            return []
+        
     def get_latest_block(self):
         '''
         get the latest block from the streams
