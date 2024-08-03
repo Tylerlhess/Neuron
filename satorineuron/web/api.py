@@ -118,12 +118,12 @@ def get_latest_block():
     '''
     Get the latest block from the blockchain
     '''
-    return jsonify(start.oracle.get_latest_block())
+    return jsonify(start.oracle.get_latest_block()), 200
 
 @app.route('/api/oracle/get_streams', methods=['GET'])
 @cryptoAuthRequired
 def get_streams():
-    return jsonify(start.oracle.get_streams())
+    return jsonify(oracle.get_streams()), 200
 
 
 @app.route('/api/oracle/get_stream_data/<topic>}', methods=['GET'])
@@ -132,9 +132,9 @@ def get_stream_data(topic):
     '''
     Get the latest block from the blockchain
     '''
-    return jsonify(start.oracle.get_stream_data(topic))
+    return jsonify(oracle.get_stream_data(topic)), 200
 
-@app.route('/api/oracle/submit_prediction', methods=['GET'])
+@app.route('/api/oracle/submit_prediction', methods=['POST'])
 @cryptoAuthRequired
 def submit_prediction():
     '''
@@ -154,7 +154,29 @@ def submit_prediction():
     elif 'date' not in data:
         return jsonify({'error': 'Date not provided'}), 400
     
-    return jsonify(start.oracle.submit_prediction(data))
+    return jsonify(oracle.submit_prediction(data, request)), 200
+
+@app.route('/api/oracle/submit_stream/<topic>', methods=['POST'])
+@cryptoAuthRequired
+def submit_prediction(topic):
+    '''
+    Submit a data stream
+    '''
+    data = request.json
+    if data is None:
+        return jsonify({'error': 'No data provided'}), 400
+    elif 'topic' not in data:
+        return jsonify({'error': 'Topic not provided'}), 400
+    elif 'prediction' not in data:
+        return jsonify({'error': 'Prediction not provided'}), 400
+    elif 'signature' not in data:
+        return jsonify({'error': 'Signature not provided'}), 400
+    elif 'wallet_address' not in data:
+        return jsonify({'error': 'Wallet address not provided'}), 400
+    elif 'date' not in data:
+        return jsonify({'error': 'Date not provided'}), 400
+    
+    return jsonify(oracle.submit_stream_data(topic, data, request)), 200
 
 @app.route('/api/oracle/helloWorld', methods=['GET'])
 @cryptoAuthRequired
