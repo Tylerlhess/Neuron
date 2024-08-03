@@ -30,7 +30,7 @@ class Oracle:
         except Exception as e:
             logging.info(f"Issue importing streams {type(e)} {str(e)}")
             self.streams_dir = None
-            self.streams = []
+            self.streams = {}
         self.lastblock = None
         self.walletPath = config.walletPath()
         with open(self.walletPath + '/wallet.yaml', 'r') as f:
@@ -49,7 +49,7 @@ class Oracle:
         '''
         build a list of streams from the streams_dir
         '''
-        self.streams = []
+        self.streams = {}
         for root, dirs, files in os.walk(self.streams_dir):
             for file in files:
                 if file.endswith('.json'):
@@ -76,10 +76,8 @@ class Oracle:
         '''
         get the data from a stream
         '''
-        for stream in self.streams:
-            if stream.topic() == topic:
-                stream.get_data()
-                return stream.latest_data
+        if self.streams["topic"]:
+            return self.streams["topic"].latest_data
         return None
 
     def buildBlock(self):
@@ -157,10 +155,26 @@ class Oracle:
             result = session.get(f"http://{ip_address}:{port}{URI}")
         return session, result
 
+    def submit_stream_data(self, topic, data, request):
+        stream = self.streams[topic]
+        stream.record_submitted_data(data)
 
-
-
-         
+    def create_submitted_stream(self, json_stream: str = "{}"):
+        try:
+            raw_data = json_stream
+            stream_name = raw_data["stream_name"]
+            api_key = raw_data["api_key"]
+            api_url = raw_data["api_url"]
+            api_header = raw_data["api_header"]
+            self.streams[stream_name] = Data_Stream(file_path=None, 
+                                                    stream_name=stream_name,
+                                                    api_key=api_key,
+                                                    api_url=api_url,
+                                                    api_header=api_header)
+        except:
+            return False
+        
+        
 
             
 

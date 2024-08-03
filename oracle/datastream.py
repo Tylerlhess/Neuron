@@ -2,6 +2,7 @@ from oracle.serverside import *
 from flask import jsonify
 import json
 import requests, time
+import oracle_errors
 
 
 class Data_Stream():
@@ -40,14 +41,15 @@ class Data_Stream():
     def topic(self):
         return self.stream_name
     
-    def get_data(self) -> bool:
-        try:
-            data = requests.get(self.api_url, headers=self.api_header)
-        except:
-            raise squawker_errors.NotMessage(f"No data in stream {self.stream_name}")
+    def get_data(self, local: str = True) -> bool:
+        if local:
+            try:
+                data = requests.get(self.api_url, headers=self.api_header)
+            except:
+                raise oracle_errors.NotMessage(f"No data in stream {self.stream_name}")
         #this needs to fileter to just the value
-        self.latest_data[0] = data.json()
-        self.changed_data[0] = True
+            self.latest_data[0] = data.json()
+            self.changed_data[0] = True
         record_data = ""
         for index in range(self.changed_data):
             if self.changed_data[index]:
@@ -68,7 +70,15 @@ class Data_Stream():
                 return True
         return False
     
-    def generate_block_data(self) -> str:
+    def record_submitted_data(self, data: str) -> bool:
+        try:
+            self.latest_data[0]
+            self.changed_data[0] = True
+            return True
+        except:
+            return False
+        
+    def buildBlock(self) -> str:
         block_data = "|".join(self.predictors)
         wallet_pos = 0
         disconnected_wallets = []
@@ -81,6 +91,8 @@ class Data_Stream():
             block_data += "@" + self.data[minute]
         for wallet in disconnected_wallets:
                 self.predictors.remove(wallet)
+        block_data += "#" # this is a separator between the sections of the dataBlock
         self.data = {}
         return block_data
+    
     
