@@ -39,7 +39,7 @@ class Data_Stream():
             """
     
     def json(self):
-        return self.stream.steamId.topic(authorAsPubkey=True)
+        return self.stream.streamId.topic(authorAsPubkey=True)
     
     def topic(self):
         return self.stream.streamId.topic(authorAsPubkey=True)
