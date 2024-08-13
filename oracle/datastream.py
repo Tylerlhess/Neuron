@@ -12,16 +12,16 @@ class Data_Stream():
         self.stream = stream
         self.port = port
         self.data = {}
-        self.latest_data = []
-        self.changed_data = []
+        self.latest_data = ["",]
+        self.changed_data = [False,]
         self.last_recorded = 0
-        self.predictors = []
+        self.predictors = ["stream",]
 
         self.actions = {
             "json": self.json,
             "topic": self.topic,
-            "rec_pred": self.record_prediction,
-            "rec_sub": self.record_submitted_data,
+            "rec_pred": self.record_prediction, # wallet, prediction
+            "rec_sub": self.record_submitted_data, # data
             "build": self.buildBlock,
             "latest": self.latest
         }
@@ -64,16 +64,17 @@ class Data_Stream():
         self.data[(self.last_recorded%3600)//60] = record_data
         return True
     
-    def record_prediction(self, wallet_address: str=None, prediction: str=None) -> bool:
+    def record_prediction(self, wallet_address: str, prediction: str) -> bool:
         if wallet_address not in self.predictors:
             self.predictors.append(wallet_address)
+            self.changed_data.append("")
         for wallet in range(len(self.predictors)):
             if wallet_address == self.predictors[wallet]:
                 self.latest_data[wallet] = prediction
                 return True
         return False
     
-    def record_submitted_data(self, data: str=None) -> bool:
+    def record_submitted_data(self, data) -> bool:
         try:
             self.latest_data[0] = data
             self.changed_data[0] = True
@@ -112,7 +113,7 @@ class Data_Stream():
             
             print(func, args, self.actions[func])
             if "," in args:
-                arg_dict = {key: value for key, value in [arg.split("=", 1) for arg in args.split(",")]}
+                arg_dict = {key: value for key, value in arg.split("=", 1) for arg in args.split(",")]}
                 print(f"created {arg_dict=}")
             else:
                 arg_dict = {}
