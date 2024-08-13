@@ -26,9 +26,10 @@ class Data_Stream():
             "latest": self.latest
         }
         try:
-            Data_Stream.return_message(f"new_stream: {port}", 24621)
+            Data_Stream.return_message(f"new_stream: {self.port}", 24621)
             print(f"started datastream {stream=}")
         except:
+            print(f"Failed to notify oracle stream started on {self.port}")
             pass
 
 
@@ -119,9 +120,9 @@ class Data_Stream():
             s.connect(('127.0.0.1', port))
             s.sendall(f"{data}".encode())
 
-    def run(self, port):
+    def run(self):
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server_socket.bind(('localhost', port))
+        server_socket.bind(('localhost', self.port))
         server_socket.listen(5)
         while True:
             message, client_socket = server_socket.accept()
