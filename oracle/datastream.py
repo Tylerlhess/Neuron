@@ -70,7 +70,7 @@ class Data_Stream():
             self.predictors.append(wallet_address)
             self.changed_data.append(True)
             if DEBUG: print(self.predictors, self.changed_data)
-        for wallet in range(0, len(self.predictors) - 1):
+        for wallet in range(0, len(self.predictors)):
             if DEBUG: print(wallet, self.predictors[wallet], wallet_address)
             if wallet_address == self.predictors[wallet]:
                 if DEBUG: print(self.latest_data)
