@@ -117,14 +117,15 @@ class Data_Stream():
                 func, args = message, None
             
             print(func, args, self.actions[func])
-            if "," in args:
-                arg_dict = args.split(",")
-                print(f"created {arg_dict=}")
-            else:
-                arg_dict = {}
-                print(f"created empty {arg_dict=}")
+            if args:
+                if "," in args:
+                    arg_dict = args.split(",")
+                    print(f"created {arg_dict=}")
+                else:
+                    arg_dict = {}
+                    print(f"created empty {arg_dict=}")
 
-            if len(arg_dict) > 0:
+            if args:
                 returnable = self.actions[func](*arg_dict)
             else:
                 returnable = self.actions[func]()
