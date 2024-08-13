@@ -111,16 +111,17 @@ class Data_Stream():
                 returnable = self.actions[func](arg_dict)
             else:
                 returnable = self.actions[func]()
-        except:
+        except Exception as e:
+            print(type(e), str(e))
             returnable = False    
             
         Data_Stream.return_message(returnable, return_address)
 
     @staticmethod
-    def return_message(data, port: int):
+    def return_message(data, port):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             print(data, port)
-            s.connect(('127.0.0.1', port))
+            s.connect(port)
             s.sendall(f"{data}".encode())
 
     def run(self):
