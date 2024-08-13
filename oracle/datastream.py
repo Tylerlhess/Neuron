@@ -6,7 +6,7 @@ from oracle import oracle_errors
 import socket
 from satorilib.concepts.structs import Stream, StreamId
 
-
+DEBUG = 1
 class Data_Stream():
     def __init__(self, stream: Stream, port: int):
         self.stream = stream
@@ -65,12 +65,15 @@ class Data_Stream():
         return True
     
     def record_prediction(self, wallet_address: str, prediction: str) -> bool:
+        if DEBUG: print(f"<DEBUG> Made it to record_predictions with {wallet_address=} {prediction=}")
         if wallet_address not in self.predictors:
             self.predictors.append(wallet_address)
             self.changed_data.append("")
+            if DEBUG: print(self.predictors, self.changed_data)
         for wallet in range(len(self.predictors)):
             if wallet_address == self.predictors[wallet]:
                 self.latest_data[wallet] = prediction
+                if DEBUG: print(self.latest_data)
                 return True
         return False
     
