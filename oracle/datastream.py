@@ -27,6 +27,7 @@ class Data_Stream():
         }
         try:
             Data_Stream.return_message(f"new_stream: {port}", 24621)
+            print(f"started datastream {stream=}")
         except:
             pass
 

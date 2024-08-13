@@ -42,6 +42,7 @@ class RawStreamRelayEngine(Cached):
         stream_port = 24621
         for stream in self.streams:
             stream_port += 1
+            print(f"attempting to start a datastream on port {stream_port}")
             threading.Thread(target=datastream.Data_Stream, args=(stream, stream_port,)).start()
 
     def status(self):
