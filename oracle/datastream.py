@@ -106,7 +106,10 @@ class Data_Stream():
             message = socket.recv(1024).decode()
             func, args = message.split("|") if "|" in message else (message, "")
             print(func, args, self.actions[func])
-            arg_dict = {key: value for key, value in [arg for arg in args.split(",")]}
+            if "," in args:
+                arg_dict = {key: value for key, value in [arg for arg in args.split(",")]}
+            else:
+                arg_dict = {}
             if len(arg_dict.items) > 0:
                 returnable = self.actions[func](arg_dict)
             else:
