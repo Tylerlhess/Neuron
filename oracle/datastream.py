@@ -118,7 +118,8 @@ class Data_Stream():
     @staticmethod
     def return_message(data, port: int):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.connect('127.0.0.1', int(port))
+            print(data, port)
+            s.connect('127.0.0.1', port)
             s.sendall(f"{data}".encode())
 
     def run(self):
