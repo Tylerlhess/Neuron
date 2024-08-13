@@ -69,6 +69,7 @@ class Data_Stream():
         if wallet_address not in self.predictors:
             self.predictors.append(wallet_address)
             self.changed_data.append(True)
+            self.latest_data.append("")
             if DEBUG: print(self.predictors, self.changed_data)
         for wallet in range(0, len(self.predictors)):
             if DEBUG: print(wallet, self.predictors[wallet], wallet_address)
