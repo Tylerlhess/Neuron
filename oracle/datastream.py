@@ -67,7 +67,7 @@ class Data_Stream():
     def record_prediction(self, wallet_address: str=None, prediction: str=None) -> bool:
         if wallet_address not in self.predictors:
             self.predictors.append(wallet_address)
-        for wallet in range(self.predictors):
+        for wallet in range(len(self.predictors)):
             if wallet_address == self.predictors[wallet]:
                 self.latest_data[wallet] = prediction
                 return True
