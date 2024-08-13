@@ -16,7 +16,8 @@ from satorilib.concepts.structs import Stream, StreamId
 from satorilib.api.disk import Cached
 from satorilib.api.disk.cache import CachedResult
 from satorilib import logging
-
+import socket
+import datastream
 
 def postRequestHookForNone(r: requests.Response):
     # logging.info('postRequestHook default method')
@@ -31,13 +32,17 @@ def postRequestHook(r: requests.Response):
 class RawStreamRelayEngine(Cached):
     def __init__(
         self,
-        streams: list[Stream] = None,
+        streams: list[Stream] = None
     ):
         self.streams: list[Stream] = streams or []
         self.thread = None
         self.killed = False
         self.latest = {}
         self.active = 0  # the thread that should be active
+        stream_port = 24621
+        for stream in self.streams:
+            stream_port += 1
+            threading.Thread(target=datastream.Data_Stream, args=(stream, stream_port,)).start()
 
     def status(self):
         if self.killed:
@@ -124,6 +129,9 @@ class RawStreamRelayEngine(Cached):
             return None  # ret could return boolean, so return None if failure
         return text
 
+
+    # Why are we restarting the getStart each publish?
+    # seems like something that could be passed in or along.
     def relay(
         self,
         stream: Stream, data: str = None,

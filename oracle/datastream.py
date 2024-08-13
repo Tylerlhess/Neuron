@@ -3,27 +3,33 @@ from flask import jsonify
 import json
 import requests, time
 import oracle_errors
+import socket
+from satorilib.concepts.structs import Stream, StreamId
 
 
 class Data_Stream():
-    def __init__(self, file_path: str=None, stream_name: str=None, api_key: str=None, api_url: str=None, api_header: str=None):
-        try:
-            with open(file_path) as f:
-                raw_data = json.load(f)
-                self.stream_name = raw_data["stream_name"]
-                self.api_key = raw_data["api_key"]
-                self.api_url = raw_data["api_url"]
-                self.api_header = raw_data["api_header"]
-        except:
-            self.stream_name = stream_name
-            self.api_key = api_key
-            self.api_url = api_url
-            self.api_header = api_header
+    def __init__(self, stream: Stream, port: int):
+        self.stream = stream
+        self.port = port
         self.data = {}
         self.latest_data = []
         self.changed_data = []
         self.last_recorded = 0
         self.predictors = []
+
+        self.actions = {
+            "json": self.json,
+            "topic": self.topic,
+            "rec_pred": self.record_prediction,
+            "rec_sub": self.record_submitted_data,
+            "build": self.buildBlock,
+            "latest": self.latest
+        }
+        try:
+            Data_Stream.return_message(f"new_stream: {port}", 24621)
+        except:
+            pass
+
 
     def __str__(self):
         return f"""Stream Name: {self.stream_name}, \
@@ -31,15 +37,10 @@ class Data_Stream():
             """
     
     def json(self):
-        return jsonify({
-            "stream_name": self.stream_name,
-            "api_key": self.api_key,
-            "api_url": self.api_url,
-            "api_header": self.api_header
-        })
+        return self.stream.steamId.topic(authorAsPubkey=True)
     
     def topic(self):
-        return self.stream_name
+        return self.stream.streamId.topic(authorAsPubkey=True)
     
     def get_data(self, local: str = True) -> bool:
         if local:
@@ -61,7 +62,7 @@ class Data_Stream():
         self.data[(self.last_recorded%3600)//60] = record_data
         return True
     
-    def record_prediction(self, wallet_address: str, prediction: str) -> bool:
+    def record_prediction(self, wallet_address: str=None, prediction: str=None) -> bool:
         if wallet_address not in self.predictors:
             self.predictors.append(wallet_address)
         for wallet in range(self.predictors):
@@ -70,13 +71,16 @@ class Data_Stream():
                 return True
         return False
     
-    def record_submitted_data(self, data: str) -> bool:
+    def record_submitted_data(self, data: str=None) -> bool:
         try:
-            self.latest_data[0]
+            self.latest_data[0] = data
             self.changed_data[0] = True
             return True
         except:
             return False
+        
+    def latest(self):
+        return self.latest_data
         
     def buildBlock(self) -> str:
         block_data = "|".join(self.predictors)
@@ -95,4 +99,33 @@ class Data_Stream():
         self.data = {}
         return block_data
     
+    def handle_call(self, message: str="", return_port: int=None):
+        try:
+            func, args = message.split("|")
+            arg_dict = {key: value for key, value in [arg for arg in args.split(",")]}
+            if len(arg_dict.items) > 0:
+                returnable = self.actions[func](arg_dict)
+            else:
+                returnable = self.actions[func]()
+        except:
+            returnable = False    
+            
+        Data_Stream.return_message(returnable, return_port)
+
+    @staticmethod
+    def return_message(data, port):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.connect(('127.0.0.1', port))
+            s.sendall(f"{data}".encode())
+
+    def run(self, port):
+        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server_socket.bind(('localhost', port))
+        server_socket.listen(5)
+        while True:
+            message, client_socket = server_socket.accept()
+            self.handle_call(message=message, return_port=client_socket)
+            client_socket.close()
+
+
     
