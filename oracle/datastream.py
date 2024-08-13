@@ -101,9 +101,10 @@ class Data_Stream():
         self.data = {}
         return block_data
     
-    def handle_call(self, message: str="", return_port: int=None):
+    def handle_call(self, socket=None, return_address=""):
         try:
-            func, args = message.split("|")
+            message = socket.recv(1024).decode()
+            func, args = message.decode.split("|")
             arg_dict = {key: value for key, value in [arg for arg in args.split(",")]}
             if len(arg_dict.items) > 0:
                 returnable = self.actions[func](arg_dict)
@@ -112,7 +113,7 @@ class Data_Stream():
         except:
             returnable = False    
             
-        Data_Stream.return_message(returnable, return_port)
+        Data_Stream.return_message(returnable, return_address)
 
     @staticmethod
     def return_message(data, port: int):
@@ -125,11 +126,8 @@ class Data_Stream():
         server_socket.bind(('localhost', self.port))
         server_socket.listen(5)
         while True:
-            message, client_socket = server_socket.accept()
-            print(message, client_socket)
-            message = message.decode()
-            print(message)
-            self.handle_call(message=message, return_port=client_socket)
+            client_socket, address = server_socket.accept()
+            self.handle_call(socket=client_socket, address=address)
             client_socket.close()
 
 
