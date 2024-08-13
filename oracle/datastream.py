@@ -129,7 +129,6 @@ class Data_Stream():
         #     print(data, port)
         #     s.connect(port)
         #     s.sendall(f"{data}".encode())
-        socket.connect()
         socket.sendall(f"{data}".encode())
 
     def run(self):
