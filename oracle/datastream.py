@@ -2,7 +2,7 @@ from oracle.serverside import *
 from flask import jsonify
 import json
 import requests, time
-import oracle_errors
+from oracle import oracle_errors
 import socket
 from satorilib.concepts.structs import Stream, StreamId
 
