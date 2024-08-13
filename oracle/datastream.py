@@ -112,7 +112,7 @@ class Data_Stream():
             
             print(func, args, self.actions[func])
             if "," in args:
-                arg_dict = {key: value for key, value in [arg for arg in args.split(",")]}
+                arg_dict = {key: value for key, value in [arg.split("=", 1) for arg in args.split(",")]}
                 print(f"created {arg_dict=}")
             else:
                 arg_dict = {}
