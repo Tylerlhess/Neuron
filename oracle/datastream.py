@@ -105,6 +105,7 @@ class Data_Stream():
         try:
             message = socket.recv(1024).decode()
             func, args = message.decode.split("|")
+            print(func, args, self.actions[func])
             arg_dict = {key: value for key, value in [arg for arg in args.split(",")]}
             if len(arg_dict.items) > 0:
                 returnable = self.actions[func](arg_dict)
