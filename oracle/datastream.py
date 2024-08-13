@@ -108,9 +108,12 @@ class Data_Stream():
             print(func, args, self.actions[func])
             if "," in args:
                 arg_dict = {key: value for key, value in [arg for arg in args.split(",")]}
+                print(f"created {arg_dict=}")
             else:
                 arg_dict = {}
-            if len(arg_dict.items) > 0:
+                print(f"created empty {arg_dict=}")
+
+            if len(arg_dict.items()) > 0:
                 returnable = self.actions[func](arg_dict)
             else:
                 returnable = self.actions[func]()
