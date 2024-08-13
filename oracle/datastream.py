@@ -119,7 +119,7 @@ class Data_Stream():
                 arg_dict = {}
                 print(f"created empty {arg_dict=}")
 
-            if len(arg_dict.items()) > 0:
+            if len(arg_dict) > 0:
                 returnable = self.actions[func](arg_dict)
             else:
                 returnable = self.actions[func]()
