@@ -17,7 +17,7 @@ from satorilib.api.disk import Cached
 from satorilib.api.disk.cache import CachedResult
 from satorilib import logging
 import socket
-import datastream
+from oracle import datastream
 
 def postRequestHookForNone(r: requests.Response):
     # logging.info('postRequestHook default method')
