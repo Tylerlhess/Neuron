@@ -119,7 +119,7 @@ class Data_Stream():
     def return_message(data, port: int):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             print(data, port)
-            s.connect('127.0.0.1', port)
+            s.connect(('127.0.0.1', port))
             s.sendall(f"{data}".encode())
 
     def run(self):
