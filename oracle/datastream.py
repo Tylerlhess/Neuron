@@ -104,7 +104,12 @@ class Data_Stream():
     def handle_call(self, socket=None, return_address=""):
         try:
             message = socket.recv(1024).decode()
-            func, args = message.split("|") if "|" in message else (message, "")
+            print(message)
+            if "|" in message: 
+                func, args = message.split("|") 
+            else:
+                func, args = message, None
+            
             print(func, args, self.actions[func])
             if "," in args:
                 arg_dict = {key: value for key, value in [arg for arg in args.split(",")]}
