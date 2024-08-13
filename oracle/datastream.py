@@ -126,7 +126,9 @@ class Data_Stream():
         server_socket.listen(5)
         while True:
             message, client_socket = server_socket.accept()
+            print(message, client_socket)
             message = message.decode()
+            print(message)
             self.handle_call(message=message, return_port=client_socket)
             client_socket.close()
 
