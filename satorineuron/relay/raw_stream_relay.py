@@ -17,7 +17,7 @@ from satorilib.api.disk import Cached
 from satorilib.api.disk.cache import CachedResult
 from satorilib import logging
 import socket
-from oracle import datastream
+from oracle import datastream_api
 
 def postRequestHookForNone(r: requests.Response):
     # logging.info('postRequestHook default method')
@@ -43,7 +43,7 @@ class RawStreamRelayEngine(Cached):
         for stream in self.streams:
             stream_port += 1
             print(f"attempting to start a datastream {stream} on port {stream_port}")
-            threading.Thread(target= datastream.Data_Stream(stream, stream_port).run, args=()).start()
+            threading.Thread(target=datastream_api.new_datastream, args=(stream, stream_port)).start()
 
     def status(self):
         if self.killed:
