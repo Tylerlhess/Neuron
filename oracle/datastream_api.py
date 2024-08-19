@@ -77,24 +77,24 @@ def new_datastream(stream: Stream, port: int):
                 return "Error", 500
 
         except Exception as e:
-            logging.info(f"{type(e)}, {str(e)}")
+            logging.CRITICAL(f"{type(e)}, {str(e)}")
             return "Error", 500
 
     @app.route("/submit_data/<data>", methods=["POST"])
     def record_submitted_data(data):
         try:
             data = request.json()
-            logging.info(f"{data=}")
+            logging.CRITICAL(f"{data=}")
             submitted = ds.record_submitted_data(data)
-            logging.info(f"{submitted=}")
+            logging.CRITICAL(f"{submitted=}")
             if submitted:
-                logging.info(f"{submitted=} {data=}")
+                logging.CRITICAL(f"{submitted=} {data=}")
                 return submitted, 200
             else:
-                logging.info(f"{submitted=} {data=}")
+                logging.CRITICAL(f"{submitted=} {data=}")
                 return "Error", 500
         except Exception as e:
-            logging.info(f"{type(e)}, {str(e)}")
+            logging.CRITICAL(f"{type(e)}, {str(e)}")
             return "Error", 500
 
     @app.route("/latest_data", methods=["GET"])  
