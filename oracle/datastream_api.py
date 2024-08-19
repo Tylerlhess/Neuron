@@ -67,7 +67,7 @@ def new_datastream(stream: Stream, port: int):
     def record_submitted_data():
         try:
             data = request.json()
-            if ds.record_submitted_data(data):
+            if ds.record_submitted_data(data["data"]):
                 return "Success", 200
             else:
                 return "Error", 500
@@ -90,5 +90,6 @@ def new_datastream(stream: Stream, port: int):
 
     while True:
         threading.Thread(target=relay.RawStreamRelayEngine.call, args=[ds.stream]).start()
+        
         time.sleep(60)
     
