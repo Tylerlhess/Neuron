@@ -5,7 +5,7 @@ from satorilib.concepts.structs import Stream, StreamId
 from oracle.datastream_for_api import Data_Stream
 import secrets
 import threading, time
-from satorineuron.relay import RawStreamRelayEngine
+from satorineuron import relay
 
 DEBUG = 1
 
@@ -89,6 +89,6 @@ def new_datastream(stream: Stream, port: int):
     app.run(host="127.0.0.1", port=port)
 
     while True:
-        threading.Thread(target=RawStreamRelayEngine.call, args=[ds.stream]).start()
+        threading.Thread(target=relay.RawStreamRelayEngine.call, args=[ds.stream]).start()
         time.sleep(60)
     
