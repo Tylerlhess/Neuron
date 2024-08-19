@@ -6,6 +6,16 @@ from oracle.datastream_for_api import Data_Stream
 import secrets
 import threading, time
 from satorineuron import relay
+import logging
+
+logging.basicConfig(
+    level=logging.DEBUG,  # Set the lowest level to log (DEBUG is the most detailed)
+    format='%(asctime)s - %(levelname)s - %(message)s',  # Log message format
+    handlers=[
+        logging.FileHandler("app.log"),  # Log to a file
+        logging.StreamHandler()  # Log to the console
+    ]
+)
 
 DEBUG = 1
 
@@ -60,7 +70,8 @@ def new_datastream(stream: Stream, port: int):
             else:
                 return "Error", 500
 
-        except:
+        except Exception as e:
+            logging.info(f"{type(e)}, {str(e)}")
             return "Error", 500
 
     @app.route("/submit_data", methods=["POST"])
@@ -75,7 +86,8 @@ def new_datastream(stream: Stream, port: int):
                 return submitted, 200
             else:
                 return "Error", 500
-        except:
+        except Exception as e:
+            logging.info(f"{type(e)}, {str(e)}")
             return "Error", 500
 
     @app.route("/latest_data", methods=["GET"])  
