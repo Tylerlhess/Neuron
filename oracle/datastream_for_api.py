@@ -41,6 +41,7 @@ class Data_Stream():
                 data = Stream.call(self.stream)
                 print(f"{data=}")
             except:
+                print(f"No data in stream {self.stream_name}")
                 raise oracle_errors.NotMessage(f"No data in stream {self.stream_name}")
         #this needs to fileter to just the value
             self.latest_data[0] = data.json()
