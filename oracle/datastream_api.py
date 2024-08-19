@@ -83,8 +83,8 @@ def new_datastream(stream: Stream, port: int):
     @app.route("/submit_data/<data>", methods=["POST"])
     def record_submitted_data(data):
         try:
-            data = request.json()
-            logging.CRITICAL(f"{data=}")
+            #data = request.json()
+            #logging.CRITICAL(f"{data=}")
             submitted = ds.record_submitted_data(data)
             logging.CRITICAL(f"{submitted=}")
             if submitted:
