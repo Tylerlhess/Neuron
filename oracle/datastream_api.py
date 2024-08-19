@@ -89,7 +89,7 @@ def new_datastream(stream: Stream, port: int):
             logging.critical(f"{submitted}")
             if submitted:
                 logging.critical(f"{submitted} {data}")
-                return submitted, 200
+                return str(submitted), 200
             else:
                 logging.critical(f"{submitted} {data}")
                 return "Error", 500
