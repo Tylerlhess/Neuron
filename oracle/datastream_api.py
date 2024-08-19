@@ -72,7 +72,7 @@ def new_datastream(stream: Stream, port: int):
             print(submitted)
             if submitted:
                 print(f"{data=}")
-                return data, 200
+                return submitted, 200
             else:
                 return "Error", 500
         except:
