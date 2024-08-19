@@ -78,13 +78,14 @@ def new_datastream(stream: Stream, port: int):
     def record_submitted_data():
         try:
             data = request.json()
-            print(f"{data=}")
+            logging.info(f"{data=}")
             submitted = ds.record_submitted_data(data["data"])
-            print(submitted)
+            logging.info(f"{submitted=}")
             if submitted:
-                print(f"{data=}")
+                logging.info(f"{submitted=} {data=}")
                 return submitted, 200
             else:
+                logging.info(f"{submitted=} {data=}")
                 return "Error", 500
         except Exception as e:
             logging.info(f"{type(e)}, {str(e)}")
