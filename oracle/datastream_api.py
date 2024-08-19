@@ -8,12 +8,13 @@ import secrets
 DEBUG = 1
 
 def new_datastream(stream: Stream, port: int):
-    
+    print(f"started datastream {stream=}")
     app = Flask(__name__)
     app.config['SECRET_KEY'] = secrets.token_urlsafe(16)
 
     ds = Data_Stream(stream, port)
-        
+    print(f"new datastream {ds=}")
+
     @app.route("/json")   
     def json():
         return ds.topic(authorAsPubkey=True)
@@ -83,6 +84,6 @@ def new_datastream(stream: Stream, port: int):
         except:
             return "Error", 500
         
-
+    app.run(host="127.0.0.1", port=port)
 
     
