@@ -17,11 +17,11 @@ def new_datastream(stream: Stream, port: int):
 
     @app.route("/json")   
     def json():
-        return ds.topic(authorAsPubkey=True)
+        return ds.topic()
 
     @app.route("/topic")
     def topic():
-        return ds.topic(authorAsPubkey=True)
+        return ds.topic()
 
 
     # def get_data():
