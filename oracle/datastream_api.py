@@ -21,7 +21,7 @@ logging.debug("This is a DEBUG message")
 logging.info("This is an INFO message")
 logging.warning("This is a WARNING message")
 logging.error("This is an ERROR message")
-logging.critical("This is a CRITICAL message")
+logging.critical("This is a critical message")
 
 DEBUG = 1
 
@@ -77,24 +77,24 @@ def new_datastream(stream: Stream, port: int):
                 return "Error", 500
 
         except Exception as e:
-            logging.CRITICAL(f"{type(e)}, {str(e)}")
+            logging.critical(f"{type(e)}, {str(e)}")
             return "Error", 500
 
     @app.route("/submit_data/<data>", methods=["POST"])
     def record_submitted_data(data):
         try:
             #data = request.json()
-            #logging.CRITICAL(f"{data=}")
+            #logging.critical(f"{data=}")
             submitted = ds.record_submitted_data(data)
-            logging.CRITICAL(f"{submitted}")
+            logging.critical(f"{submitted}")
             if submitted:
-                logging.CRITICAL(f"{submitted} {data}")
+                logging.critical(f"{submitted} {data}")
                 return submitted, 200
             else:
-                logging.CRITICAL(f"{submitted} {data}")
+                logging.critical(f"{submitted} {data}")
                 return "Error", 500
         except Exception as e:
-            logging.CRITICAL(f"{type(e)}, {str(e)}")
+            logging.critical(f"{type(e)}, {str(e)}")
             return "Error", 500
 
     @app.route("/latest_data", methods=["GET"])  
