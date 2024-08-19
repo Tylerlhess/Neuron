@@ -8,7 +8,7 @@ import threading, time
 from satorineuron import relay
 import logging
 
-logger = logging.basicConfig(
+logging.basicConfig(
     level=logging.DEBUG,  # Set the lowest level to log (DEBUG is the most detailed)
     format='%(asctime)s - %(levelname)s - %(message)s',  # Log message format
     handlers=[
@@ -77,21 +77,21 @@ def new_datastream(stream: Stream, port: int):
                 return "Error", 500
 
         except Exception as e:
-            logger.info(f"{type(e)}, {str(e)}")
+            logging.info(f"{type(e)}, {str(e)}")
             return "Error", 500
 
     @app.route("/submit_data/<data>", methods=["POST"])
     def record_submitted_data(data):
         try:
             data = request.json()
-            logger.info(f"{data=}")
+            logging.info(f"{data=}")
             submitted = ds.record_submitted_data(data)
-            logger.info(f"{submitted=}")
+            logging.info(f"{submitted=}")
             if submitted:
-                logger.info(f"{submitted=} {data=}")
+                logging.info(f"{submitted=} {data=}")
                 return submitted, 200
             else:
-                logger.info(f"{submitted=} {data=}")
+                logging.info(f"{submitted=} {data=}")
                 return "Error", 500
         except Exception as e:
             logging.info(f"{type(e)}, {str(e)}")
