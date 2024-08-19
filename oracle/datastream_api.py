@@ -86,12 +86,12 @@ def new_datastream(stream: Stream, port: int):
             #data = request.json()
             #logging.CRITICAL(f"{data=}")
             submitted = ds.record_submitted_data(data)
-            logging.CRITICAL(f"{submitted=}")
+            logging.CRITICAL(f"{submitted}")
             if submitted:
-                logging.CRITICAL(f"{submitted=} {data=}")
+                logging.CRITICAL(f"{submitted} {data}")
                 return submitted, 200
             else:
-                logging.CRITICAL(f"{submitted=} {data=}")
+                logging.CRITICAL(f"{submitted} {data}")
                 return "Error", 500
         except Exception as e:
             logging.CRITICAL(f"{type(e)}, {str(e)}")
