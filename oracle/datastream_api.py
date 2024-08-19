@@ -74,12 +74,12 @@ def new_datastream(stream: Stream, port: int):
             logging.info(f"{type(e)}, {str(e)}")
             return "Error", 500
 
-    @app.route("/submit_data", methods=["POST"])
-    def record_submitted_data():
+    @app.route("/submit_data/<data>", methods=["POST"])
+    def record_submitted_data(data):
         try:
             data = request.json()
             logging.info(f"{data=}")
-            submitted = ds.record_submitted_data(data["data"])
+            submitted = ds.record_submitted_data(data)
             logging.info(f"{submitted=}")
             if submitted:
                 logging.info(f"{submitted=} {data=}")
