@@ -67,6 +67,7 @@ def new_datastream(stream: Stream, port: int):
     def record_submitted_data():
         try:
             data = request.json()
+            print(f"{data=}")
             if ds.record_submitted_data(data["data"]):
                 print(f"{data=}")
                 return "Success", 200
