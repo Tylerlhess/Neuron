@@ -1,7 +1,7 @@
 import requests
 
 r = requests.session()
-r.get("curl http://localhost:61208/api/4/diskio")
-print(r.json)
+result = r.get("http://45.8.148.105:61208/api/4/diskio")
+print(result.json())
 
 
