@@ -39,6 +39,7 @@ print(result.status_code, result.text)
 
 prediction = {"wallet": "", "prediction": data["data"]}
 
+print("Begginging posting data")
 for wallet in wallets:
     variance = random.uniform(-0.01, 0.01)
     prediction["prediction"] *= 1 + variance
@@ -52,6 +53,6 @@ print(result.status_code, result.text)
 result = r.get(f"http://127.0.0.1:24622/get_current_data")
 print(result.status_code, result.text)
 
-result = r.post(f"http://127.0.0.1:24622/buildBlock")
+result = r.get(f"http://127.0.0.1:24622/buildBlock")
 print(result.status_code, result.text)
 
