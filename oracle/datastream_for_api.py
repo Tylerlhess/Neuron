@@ -23,12 +23,6 @@ class Data_Stream():
         except:
             print(f"Failed to notify oracle stream started on {port}")
             pass
-
-
-    def __str__(self):
-        return f"""Stream Name: {self.stream_name}, \
-            API URL: {self.api_url}, \
-            """
     
     def json(self):
         return self.stream.streamId.topic(authorAsPubkey=True)
@@ -44,7 +38,7 @@ class Data_Stream():
                 print(f"{clean_data=}")
 
             except:
-                print(f"No data in stream {self.stream_name}")
+                print(f"No data in stream {self.stream}")
                 raise oracle_errors.NotMessage(f"No data in stream {self.stream_name}")
         #this needs to fileter to just the value
             self.latest_data[0] = clean_data
@@ -57,7 +51,8 @@ class Data_Stream():
             record_data += "|"
         self.last_recorded = int(time.time())
         # Record it for minutes after the hour
-        self.data[(self.last_recorded%3600)//60] = record_data
+        self.data[str((self.last_recorded%3600)//60)] = record_data
+        print(self.data)
         return record_data
     
     def record_prediction(self, wallet_address: str, prediction: str) -> bool:
