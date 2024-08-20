@@ -48,7 +48,7 @@ class Data_Stream():
             self.latest_data[0] = data.json()
             self.changed_data[0] = True
         record_data = ""
-        for index in range(self.changed_data):
+        for index in range(0, len(self.changed_data)):
             if self.changed_data[index]:
                 self.changed_data[index] = False
                 record_data += str(self.latest_data[index])
