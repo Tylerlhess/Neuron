@@ -44,12 +44,11 @@ def new_datastream(stream: Stream, port: int):
     @app.route("/get_current_data", methods=["GET"])
     def get_data():
         data = ds.get_data()
-        print(f"{data=}")
         return jsonify(data)
 
     @app.route("/rec_pred", methods=["POST"])
     def record_prediction():
-        data = request.json()
+        data = request.json
         wallet_address = data["wallet"]
         prediction = data["prediction"]
 
