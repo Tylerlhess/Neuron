@@ -102,6 +102,7 @@ class Data_Stream():
         for wallet in disconnected_wallets:
                 self.predictors.remove(wallet)
         block_data += "#" # this is a separator between the sections of the dataBlock
+        print(self.data)
         self.data = {}
         return block_data
 
