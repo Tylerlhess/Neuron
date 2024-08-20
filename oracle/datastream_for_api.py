@@ -41,13 +41,13 @@ class Data_Stream():
             try:
                 data = relay.RawStreamRelayEngine.call(self.stream)
                 clean_data = relay.RawStreamRelayEngine.callHook(self.stream, data)
-                print(f"{data=}")
+                print(f"{clean_data=}")
 
             except:
                 print(f"No data in stream {self.stream_name}")
                 raise oracle_errors.NotMessage(f"No data in stream {self.stream_name}")
         #this needs to fileter to just the value
-            self.latest_data[0] = data.json()
+            self.latest_data[0] = clean_data
             self.changed_data[0] = True
         record_data = ""
         for index in range(0, len(self.changed_data)):
@@ -58,7 +58,7 @@ class Data_Stream():
         self.last_recorded = int(time.time())
         # Record it for minutes after the hour
         self.data[(self.last_recorded%3600)//60] = record_data
-        return self.latest_data
+        return record_data
     
     def record_prediction(self, wallet_address: str, prediction: str) -> bool:
         if DEBUG: print(f"<DEBUG> Made it to record_predictions with {wallet_address=} {prediction=}")
