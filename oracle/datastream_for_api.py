@@ -93,7 +93,7 @@ class Data_Stream():
                     if DEBUG: print(f"Removing disconnected Wallet {wallet}")
             wallet_pos += 1
         for minute in self.data:
-            block_data += "@" + self.data[minute]
+            block_data += f"@{minute}~~" + self.data[minute]
         for wallet in disconnected_wallets:
                 self.predictors.remove(wallet)
         block_data += "#" # this is a separator between the sections of the dataBlock
