@@ -41,7 +41,7 @@ def new_datastream(stream: Stream, port: int):
     def topic():
         return ds.topic()
 
-    app.route("/get_current_data", methods=["get"])
+    app.route("/get_current_data", methods=["GET"])
     def get_data():
         data = ds.get_data()
         print(f"{data=}")
