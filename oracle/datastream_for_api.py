@@ -72,6 +72,7 @@ class Data_Stream():
             if wallet_address == self.predictors[wallet]:
                 if DEBUG > 2: print(self.latest_data)
                 self.latest_data[wallet] = prediction
+                self.changed_data[wallet] = True
                 return True
         return False
     
