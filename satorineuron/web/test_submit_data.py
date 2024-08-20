@@ -47,7 +47,7 @@ for wallet in wallets:
     result = r.post(f"http://127.0.0.1:24622/rec_pred", json=prediction)
     print(result.status_code, result.text)
 
-result = r.post(f"http://127.0.0.1:24622/latest_data")
+result = r.get(f"http://127.0.0.1:24622/latest_data")
 print(result.status_code, result.text)
 
 result = r.get(f"http://127.0.0.1:24622/get_current_data")

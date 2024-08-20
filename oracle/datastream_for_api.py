@@ -84,7 +84,7 @@ class Data_Stream():
             return False
         
     def latest(self):
-        return self.latest_data
+        return dict(zip(self.predictors, self.latest_data))
         
     def buildBlock(self) -> str:
         block_data = "|".join(self.predictors)
@@ -94,6 +94,7 @@ class Data_Stream():
             for minute in self.data:
                 if len(self.data[minute].split("|")[wallet_pos]) == 0:
                     disconnected_wallets.append(wallet)
+                    if DEBUG: print(f"Removing disconnected Wallet {wallet}")
             wallet_pos += 1
         for minute in self.data:
             block_data += "@" + self.data[minute]
