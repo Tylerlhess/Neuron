@@ -40,7 +40,9 @@ class Data_Stream():
         if local:
             try:
                 data = relay.RawStreamRelayEngine.call(self.stream)
+                clean_data = relay.RawStreamRelayEngine.callHook(self.stream, data)
                 print(f"{data=}")
+
             except:
                 print(f"No data in stream {self.stream_name}")
                 raise oracle_errors.NotMessage(f"No data in stream {self.stream_name}")
