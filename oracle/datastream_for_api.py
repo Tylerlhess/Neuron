@@ -36,7 +36,7 @@ class Data_Stream():
     def topic(self):
         return self.stream.streamId.topic(authorAsPubkey=True)
     
-    def get_data(self, local: str = True) -> bool:
+    def get_data(self, local: bool = True):
         if local:
             try:
                 data = relay.RawStreamRelayEngine.call(self.stream)
@@ -56,7 +56,7 @@ class Data_Stream():
         self.last_recorded = int(time.time())
         # Record it for minutes after the hour
         self.data[(self.last_recorded%3600)//60] = record_data
-        return True
+        return self.latest_data
     
     def record_prediction(self, wallet_address: str, prediction: str) -> bool:
         if DEBUG: print(f"<DEBUG> Made it to record_predictions with {wallet_address=} {prediction=}")

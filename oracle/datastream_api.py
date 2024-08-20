@@ -41,27 +41,11 @@ def new_datastream(stream: Stream, port: int):
     def topic():
         return ds.topic()
 
-
-    # def get_data():
-    #     if local:
-    #         try:
-    #             data = Stream.call(self.stream)
-    #             print(f"{data=}")
-    #         except:
-    #             raise oracle_errors.NotMessage(f"No data in stream {self.stream_name}")
-    #     #this needs to fileter to just the value
-    #         self.latest_data[0] = data.json()
-    #         self.changed_data[0] = True
-    #     record_data = ""
-    #     for index in range(self.changed_data):
-    #         if self.changed_data[index]:
-    #             self.changed_data[index] = False
-    #             record_data += str(self.latest_data[index])
-    #         record_data += "|"
-    #     self.last_recorded = int(time.time())
-    #     # Record it for minutes after the hour
-    #     self.data[(self.last_recorded%3600)//60] = record_data
-    #     return True
+    app.route("/get_current_data", methods=["get"])
+    def get_data():
+        data = ds.get_data()
+        print(f"{data=}")
+        return jsonify(data)
 
     @app.route("/rec_pred", methods=["POST"])
     def record_prediction():
