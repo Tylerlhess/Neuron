@@ -85,7 +85,7 @@ class Data_Stream():
             return False
         
     def latest(self):
-        return "|".join(self.predictors)+"="+"|".join(self.latest_data)
+        return "|".join(self.predictors)+"="+"|".join([str(wall) for wall in self.latest_data])
         
     def buildBlock(self) -> str:
         block_data = "|".join(self.predictors)
