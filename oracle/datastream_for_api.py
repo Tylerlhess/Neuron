@@ -6,6 +6,7 @@ from oracle import oracle_errors
 import socket
 from satorilib.concepts.structs import Stream
 from satorineuron import relay
+import requests
 
 DEBUG = 1
 class Data_Stream():
@@ -108,8 +109,10 @@ class Data_Stream():
         #     print(data, port)
         #     s.connect(port)
         #     s.sendall(f"{data}".encode())
-        socket.sendall(f"{data}".encode())
-
+        # socket.sendall(f"{data}".encode())
+        r = requests.Session()
+        result = r.get("http://127.0.0.1:24621/api/oracle/accept_stream/port")
+        print("Stream Started")
     
 
 

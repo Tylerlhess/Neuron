@@ -78,6 +78,10 @@ while True:
         logging.error(f'Exception in app startup: {e}', color='red')
         time.sleep(30)
 
+    while True:
+        time.sleep(60)
+
+
 
 
 def cryptoAuthRequired(f):
@@ -118,7 +122,7 @@ def get_latest_block():
     '''
     Get the latest block from the blockchain
     '''
-    return jsonify(start.oracle.get_latest_block()), 200
+    return jsonify(oracle.get_latest_block()), 200
 
 @app.route('/api/oracle/get_streams', methods=['GET'])
 @cryptoAuthRequired
@@ -178,10 +182,38 @@ def submit_prediction(topic):
     
     return jsonify(oracle.submit_stream_data(topic, data, request)), 200
 
+@app.route('/api/oracle/create_stream/<topic>', methods=['POST'])
+@cryptoAuthRequired
+def create_stream(topic):
+    '''
+    Submit a data stream
+    '''
+    data = request.json
+    if data is None:
+        return jsonify({'error': 'No data provided'}), 400
+    elif 'stream_name' not in data:
+        return jsonify({'error': 'Topic not provided'}), 400
+    elif 'api_key' not in data:
+        return jsonify({'error': 'Prediction not provided'}), 400
+    elif 'api_url' not in data:
+        return jsonify({'error': 'Signature not provided'}), 400
+    elif 'api_header' not in data:
+        return jsonify({'error': 'Wallet address not provided'}), 400
+    elif 'date' not in data:
+        return jsonify({'error': 'Date not provided'}), 400
+    
+    return jsonify(oracle.submit_stream_data(topic, data, request)), 200
+
 @app.route('/api/oracle/helloWorld', methods=['GET'])
 @cryptoAuthRequired
 def helloWorld():
     return jsonify({"Hello": "World"}), 200
+
+
+@app.route('/api/oracle/accept_stream/<port>', methods=["POST"])
+def accept_stream(port):
+    Oracle.accept_stream(port)
+    return jsonify({"accepted": True}) , 200
 
 
 if __name__ == '__main__':
