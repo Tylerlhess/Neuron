@@ -143,6 +143,14 @@ def get_stream_data(topic):
 def submit_prediction():
     '''
     Submit a prediction
+    json format
+    { 'topic': 'str',
+      'prediction': 'str',
+      'signture': 'str',
+      'walleet_address': 'valid wallet address matching signature',
+      'date': 'epoch timestamp'
+      }
+    
     '''
     data = request.json
     if data is None:
@@ -157,7 +165,7 @@ def submit_prediction():
         return jsonify({'error': 'Wallet address not provided'}), 400
     elif 'date' not in data:
         return jsonify({'error': 'Date not provided'}), 400
-    
+    elif 
     return jsonify(oracle.submit_prediction(data, request)), 200
 
 @app.route('/api/oracle/submit_stream/<topic>', methods=['POST'])
@@ -212,8 +220,8 @@ def helloWorld():
 
 @app.route('/api/oracle/accept_stream/<port>', methods=["POST"])
 def accept_stream(port):
-    Oracle.accept_stream(port)
-    return jsonify({"accepted": True}) , 200
+    result = Oracle.accept_stream(port)
+    return jsonify({"accepted": result}) , 200
 
 
 if __name__ == '__main__':
