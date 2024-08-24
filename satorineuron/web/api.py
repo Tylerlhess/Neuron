@@ -218,7 +218,7 @@ def helloWorld():
     return jsonify({"Hello": "World"}), 200
 
 
-@app.route('/api/oracle/accept_stream/<port>', methods=["POST"])
+@app.route('/api/oracle/accept_stream/<int:port>', methods=["POST"])
 def accept_stream(port):
     print(port)
     result = Oracle.accept_stream(port)
