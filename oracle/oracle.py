@@ -207,7 +207,7 @@ class Oracle:
             client_socket.close()
             
     def accept_stream(self, port):
-        self.streams.append(port)
+        self.streams[str(port)] = requests.get(f"http://127.0.0.1:{port}/topic")
         return True
 
 
