@@ -18,16 +18,16 @@ class Oracle:
     '''
 
     def __init__(self):
-        try:
-            self.streams_file = config.get().get('streams_file', None)
-            if self.streams_file:
-                self.build_streams()
-        except Exception as e:
-            logging.info(f"Issue importing streams {type(e)} {str(e)}")
-            self.streams_file = None
-            self.streams = {}
+        # try:
+        #     self.streams_file = config.get().get('streams_file', None)
+        #     if self.streams_file:
+        #         self.build_streams()
+        # except Exception as e:
+        #     logging.info(f"Issue importing streams {type(e)} {str(e)}")
+        #     self.streams_file = None
+        self.streams = {}
         self.lastblock = None
-        self.walletPath = config.get().get().walletPath()
+        self.walletPath = "/Satori/Neuron/wallet" # config.get().walletPath()
         with open(self.walletPath + '/wallet.yaml', 'r') as f:
             self.walletDetails = yaml.safe_load(f)
             self.wallet_address = self.walletDetails["evr"]["address"]
@@ -120,11 +120,7 @@ class Oracle:
                 logging.info(f"Exception thrown from read_dns after verification failed {type(e)}: {str(e)}")
                 return {}, False
 
-    @staticmethod
-    def call_stream(data, port):
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.connect(('127.0.0.1', port))
-            s.sendall(f"{data}".encode())
+    #        s.sendall(f"{data}".encode())
 
 
     def connectToOracleFromBlock(self, block:dict=None, URI: str=None):
@@ -210,4 +206,8 @@ class Oracle:
             self.handle_call(message=message, return_port=client_socket)
             client_socket.close()
             
+    def accept_stream(self, port):
+        self.streams.append(port)
+        return True
+
 
