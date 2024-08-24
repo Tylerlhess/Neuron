@@ -140,7 +140,7 @@ def get_stream_data(topic):
 
 @app.route('/api/oracle/submit_prediction', methods=['POST'])
 @cryptoAuthRequired
-def submit_prediction():
+def submit_prediction_to_oracle():
     '''
     Submit a prediction
     json format
