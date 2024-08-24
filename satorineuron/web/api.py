@@ -165,7 +165,7 @@ def submit_prediction():
         return jsonify({'error': 'Wallet address not provided'}), 400
     elif 'date' not in data:
         return jsonify({'error': 'Date not provided'}), 400
-    elif 
+    #elif 
     return jsonify(oracle.submit_prediction(data, request)), 200
 
 @app.route('/api/oracle/submit_stream/<topic>', methods=['POST'])
