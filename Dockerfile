@@ -8,33 +8,13 @@ FROM python:3.10-slim AS builder
 
 ## System dependencies
 RUN apt-get update && \
-    apt-get install -y build-essential && \
-    apt-get install -y wget && \
-    apt-get install -y curl && \
-    apt-get install -y git && \
-    apt-get install -y vim && \
-    apt-get install -y cmake && \
-    apt-get install -y dos2unix && \
-    apt-get clean
-    # TODO: need zip? I think it was just used for IPFS install
-    #apt-get install -y zip
-
-# TODO: test 777 permissions
-    #chmod -R 777 /Satori/Synapse && \
-    #chmod -R 777 /Satori/Lib && \
-    #chmod -R 777 /Satori/Wallet && \
-    #chmod -R 777 /Satori/Engine && \
-    #chmod -R 777 /Satori/Neuron && \
-## File system setup
-ARG BRANCH_FLAG=main
-RUN mkdir /Satori && \
-    cd /Satori && git clone -b ${BRANCH_FLAG} https://github.com/SatoriNetwork/Synapse.git && \
-    cd /Satori && git clone -b ${BRANCH_FLAG} https://github.com/SatoriNetwork/Lib.git && \
-    cd /Satori && git clone -b ${BRANCH_FLAG} https://github.com/SatoriNetwork/Wallet.git && \
-    cd /Satori && git clone -b ${BRANCH_FLAG} https://github.com/SatoriNetwork/Engine.git && \
-    cd /Satori && git clone -b ${BRANCH_FLAG} https://github.com/SatoriNetwork/Neuron.git && \
-    cd /Satori && git clone https://github.com/amazon-science/chronos-forecasting.git && \
-    cd /Satori && git clone https://github.com/ibm-granite/granite-tsfm.git && \
+    apt-get install -y build-essential wget git vim cmake zip curl && \
+    mkdir /Satori && \
+    cd /Satori && git clone -b dev https://github.com/SatoriNetwork/Synapse.git && \
+    cd /Satori && git clone -b dev https://github.com/SatoriNetwork/Lib.git && \
+    cd /Satori && git clone -b dev https://github.com/SatoriNetwork/Wallet.git && \
+    cd /Satori && git clone -b dev https://github.com/SatoriNetwork/Engine.git && \
+    cd /Satori && git clone -b dev https://github.com/SatoriNetwork/Neuron.git && \
     mkdir /Satori/Neuron/models && \
     mkdir /Satori/Neuron/models/huggingface && \
     chmod +x /Satori/Neuron/satorineuron/web/start.sh && \
