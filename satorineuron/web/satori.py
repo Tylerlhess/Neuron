@@ -18,6 +18,7 @@ import secrets
 import time
 import traceback
 import pandas as pd
+import logging as log
 from logging.handlers import RotatingFileHandler
 from queue import Queue
 # from waitress import serve  # necessary ?
@@ -94,7 +95,7 @@ while True:
                 'local': 'http://192.168.0.10:5002',
                 'dev': 'http://localhost:5002',
                 'test': 'https://test.satorinet.io',
-                'prod': 'https://stage.satorinet.io'}[ENV],
+                'prod': 'https://central.satorinet.io'}[ENV],
             urlMundo={
                 'local': 'http://192.168.0.10:5002',
                 'dev': 'http://localhost:5002',
