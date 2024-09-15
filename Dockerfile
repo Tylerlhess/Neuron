@@ -83,29 +83,8 @@ CMD ["bash", "./start_from_image.sh"]
 # \Neuron> docker push satorinet/satorineuron:latest
 
 
-## RUN CPU AND GPU EXAMPLES:
-# docker run --rm -it --name satorineuron -p 24601:24601 satorinet/satorineuron:latest-wil bash # create temporarily (removes container after 'exit' command)
-# # create a new container instance and start it (-t includes logging, otherwise not)
-# PREDICTOR options: [xgboost, ttm, chronos] (default to xgboost)
-# docker run -t --name satorineuron -p 24601:24601                             --env ENV=prod --env PREDICTOR=ttm     satorinet/satorineuron:latest-wil     python ./app.py
-# docker run -t --name satorineuron -p 24601:24601 --runtime=nvidia --gpus all --env ENV=prod --env PREDICTOR=chronos satorinet/satorineuron:latest-wil-gpu python ./app.py
-
-## start an existing container
-# docker start satorineuron && docker exec -it satorineuron bash
-# docker start satorineuron && docker exec -t satorineuron python ./app.py
-# # docker stop satorineuron
-
-# test web
-# docker run --rm -it --name satorineuron -p 5000:5000 -v c:\repos\Satori\satori:/Satori/satori --env ENV=prod --env WALLETONLYMODE=1 satorinet/satorineuron:latest python /Satori/satori/app.py
-
-# automatic fast slow build:
-# docker buildx build --no-cache -f Dockerfile --platform linux/amd64             --build-arg GPU_FLAG=off --build-arg BRANCH_FLAG=main -t satorinet/satorineuron:test         --push .
-# docker pull satorinet/satorineuron:test
-# docker tag satorinet/satorineuron:test satorinet/satorineuron:latest
-# docker push satorinet/satorineuron:latest
-# docker buildx build --no-cache -f Dockerfile --platform linux/amd64,linux/arm64 --build-arg GPU_FLAG=off --build-arg BRANCH_FLAG=main -t satorinet/satorineuron:test         --push .
-# docker pull satorinet/satorineuron:test
-# docker tag satorinet/satorineuron:test satorinet/satorineuron:latest
-# docker push satorinet/satorineuron:latest
-# docker buildx build --no-cache -f Dockerfile --platform linux/arm64             --build-arg GPU_FLAG=off --build-arg BRANCH_FLAG=main -t satorinet/satorineuron:rpi_satori   --push .
-# echo "Done!"
+# \Satori> docker buildx build --no-cache -f "Neuron/Dockerfile" --platform linux/amd64,linux/arm64 -t satorinet/satorineuron:test --push . ; docker pull satorinet/satorineuron:test
+# \Satori> docker pull satorinet/satorineuron:test
+# \Satori> docker run --rm -it --name satorineuron -p 24601:24601 --env ENV=prod satorinet/satorineuron:test bash
+# \Satori> docker tag satorinet/satorineuron:test satorinet/satorineuron:latest
+# \Satori> docker push satorinet/satorineuron:latest
