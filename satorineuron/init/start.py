@@ -17,7 +17,6 @@ from satorilib.server import SatoriServerClient
 from satorilib.server.api import CheckinDetails
 from satorilib.pubsub import SatoriPubSubConn
 from satorilib.asynchronous import AsyncThread
-from satorilib.api.time import timestampToSeconds
 from satorineuron import VERSION
 from satorineuron import logging
 from satorineuron import config
