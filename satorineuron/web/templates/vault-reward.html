@@ -90,7 +90,7 @@
   }
   function getMineToAddressStatus() {
     console.log('getMineToAddressStatus');
-    fetch('/mining/to/address', { method: 'GET' })
+    return fetch('/mining/to/address', { method: 'GET' })
       .then(response => {
         if (response.ok) {
           return response.text();
@@ -101,6 +101,7 @@
         console.log('getMineToAddressStatus...');
         console.log(text);
         document.getElementById("minigReward").value = text;
+        return text;
       }).catch(error => console.error('Error:', error));
     }
     function getMyDelegate() {
@@ -116,6 +117,7 @@
         if (text == '') {
           document.getElementById("myDelegate").innerHTML = '';
         } else {
+          let addresses = JSON.parse(text)[0];
           document.getElementById('myDelegate').innerHTML = `
           <div class="row" style='padding-left:2rem;padding-right:2rem; padding-top: .1rem; padding-bottom: 2rem;'>
             <div class="col-xl-3 col-sm-3 mb-xl-0">
@@ -129,7 +131,7 @@
               <h6 class="mb-0 text-sm {% if darkmode %}dark-text{% endif %}">
                 <div class="d-flex justify-content-center px-3 py-1" style="padding-right: 1rem; margin: 0 auto;">
                   <p class="mb-1 {% if darkmode %}dark-colors{% endif %}" style="padding-top: .25rem;color: grey;">
-                    ${text}
+                    wallet: ${addresses.wallet}<br>vault: ${addresses.vault}
                   </p>
                 </div>
               </h6>
@@ -150,8 +152,15 @@
     }
     document.addEventListener('DOMContentLoaded', (event) => {
       reportVault();
-      getMineToAddressStatus();
+      getMineToAddressStatus().then(text => {
+        //if (document.getElementById("minigReward").value == '')
+        if (text == '') {
+          document.getElementById("minigReward").value = '{{ wallet.address }}';
+          setRewardAddress();
+        }
+      });
       getMyDelegate();
+
     });
     function setRewardAddress() {
       address = document.getElementById("minigReward").value;

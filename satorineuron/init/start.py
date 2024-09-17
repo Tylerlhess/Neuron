@@ -16,6 +16,7 @@ from satorilib.server import SatoriServerClient
 from satorilib.server.api import CheckinDetails
 from satorilib.pubsub import SatoriPubSubConn
 from satorilib.asynchronous import AsyncThread
+from satorineuron import VERSION
 from satorineuron import logging
 from satorineuron import config
 from satorineuron.init.restart import restartLocalSatori
@@ -57,6 +58,7 @@ class StartupDag(StartupDagStruct, metaclass=SingletonMeta):
         isDebug: bool = False
     ):
         super(StartupDag, self).__init__(*args)
+        self.version = [int(x) for x in VERSION.split('.')]
         self.env = env
         self.lastWalletCall = 0
         self.lastVaultCall = 0
@@ -104,7 +106,7 @@ class StartupDag(StartupDagStruct, metaclass=SingletonMeta):
         if not config.get().get('disable_restart', False):
             self.restartThread = threading.Thread(
                 target=self.restartEverythingPeriodic, daemon=True)
-        self.restartThread.start()
+            self.restartThread.start()
         self.checkinCheckThread = threading.Thread(
             target=self.checkinCheck, daemon=True)
         self.checkinCheckThread.start()
@@ -312,6 +314,7 @@ class StartupDag(StartupDagStruct, metaclass=SingletonMeta):
         self.createRelayValidation()
         self.getWallet()
         self.getVault()
+        self.createServerConn()
         self.checkin()
         self.verifyCaches()
         # self.startSynergyEngine()
@@ -334,10 +337,12 @@ class StartupDag(StartupDagStruct, metaclass=SingletonMeta):
         self.relayValidation = ValidateRelayStream()
         logging.info('started relay validation engine', color='green')
 
-    def checkin(self):
+    def createServerConn(self):
         logging.debug(self.urlServer, color='teal')
         self.server = SatoriServerClient(
             self.wallet, url=self.urlServer, sendingUrl=self.urlMundo)
+
+    def checkin(self):
         try:
             referrer = open(
                 config.root('config', 'referral.txt'),

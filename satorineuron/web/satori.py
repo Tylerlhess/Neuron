@@ -12,15 +12,13 @@ import os
 import sys
 import json
 import secrets
-import webbrowser
 import time
 import traceback
 import pandas as pd
-import threading
 import logging as log
 from logging.handlers import RotatingFileHandler
 from queue import Queue
-from waitress import serve  # necessary ?
+# from waitress import serve  # necessary ?
 from flask import Flask, url_for, redirect, jsonify, flash, send_from_directory
 from flask import session, request, render_template
 from flask import Response, stream_with_context, render_template_string
@@ -416,7 +414,7 @@ def import_wallet():
         return jsonify({'success': False, 'message': 'No files part in the request'})
 
     files = request.files.getlist('files')
-    
+
     wallet_path = '/Satori/Neuron/wallet'
     temp_path = '/Satori/Neuron/temp_wallet'
 
@@ -426,7 +424,7 @@ def import_wallet():
     try:
         for file in files:
             if file.filename.startswith('wallet/'):
-                file_path = os.path.join(temp_path, file.filename[7:])  
+                file_path = os.path.join(temp_path, file.filename[7:])
                 os.makedirs(os.path.dirname(file_path), exist_ok=True)
                 file.save(file_path)
 
@@ -655,15 +653,6 @@ def delegateRemove():
 def stakeCheck():
     status = start.performStakeCheck()
     return str(status), 200
-
-
-@app.route('/stake/proxy/request/<address>', methods=['GET'])
-@authRequired
-def stakeProxyRequest(address: str):
-    success, msg = start.server.stakeProxyRequest(address)
-    if success:
-        return str('ok'), 200
-    return str('failure'), 400
 
 
 @app.route('/send_satori_transaction_from_wallet/<network>', methods=['POST'])
@@ -1620,24 +1609,6 @@ def charityNotProxyChild(address: str, id: int):
     return f'Failed stakeProxyCharityNot: {result}', 400
 
 
-@app.route('/proxy/child/approve/<address>/<id>', methods=['GET'])
-@authRequired
-def approveProxyChild(address: str, id: int):
-    success, result = start.server.stakeProxyApprove(address, childId=id)
-    if success:
-        return result, 200
-    return f'Failed stakeProxyApprove: {result}', 400
-
-
-@app.route('/proxy/child/deny/<address>/<id>', methods=['GET'])
-@authRequired
-def denyProxyChild(address: str, id: int):
-    success, result = start.server.stakeProxyDeny(address, childId=id)
-    if success:
-        return result, 200
-    return f'Failed stakeProxyDeny: {result}', 400
-
-
 @app.route('/proxy/child/remove/<address>/<id>', methods=['GET'])
 @authRequired
 def removeProxyChild(address: str, id: int):
@@ -1860,6 +1831,48 @@ def voteRemoveAllSanction():
     if (start.vault is not None and start.vault.isDecrypted):
         start.server.removeSanctionVote(start.vault)
     return jsonify({'message': 'Stream votes received successfully'}), 200
+
+
+@app.route('/proposals', methods=['GET'])
+@authRequired
+def proposals():
+    # my_wallet = start.getWallet(network=start.network)
+    proposals_data = start.server.getProposals()
+    context = {
+        'title': 'Proposals',
+        # 'wallet': my_wallet,
+        'proposals': proposals_data
+    }
+    return render_template('proposals.html', **getResp(context))
+
+
+@app.route('/proposals/data', methods=['GET'])
+def get_proposals():
+    try:
+        proposals = start.server.getProposals()
+        return jsonify({'proposals': proposals})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/proposals/vote', methods=['POST'])
+def proposal_vote():
+    try:
+        data = request.json
+        proposal_id = data.get('proposal_id')
+        vote = data.get('vote')
+
+        if not proposal_id or vote is None:
+            return jsonify({'status': 'error', 'message': 'Missing proposal_id or vote'}), 400
+
+        success, result = start.server.submitProposalVote(proposal_id, vote)
+
+        if success:
+            return jsonify({'status': 'success', 'proposal': result}), 200
+        else:
+            return jsonify({'status': 'error', 'message': result}), 400
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
 
 
 @app.route('/relay_csv', methods=['GET'])
