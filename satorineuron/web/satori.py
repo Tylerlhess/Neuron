@@ -1756,11 +1756,11 @@ def vote():
         **getVotes(myWallet)}))
 
 
-@app.route('/proposals', methods=['GET'])
-@vaultRequired
-@authRequired
-def proposals():
-    return render_template('proposals.html', **getResp({'title': 'Proposals'}))
+# @app.route('/proposals', methods=['GET'])
+# @vaultRequired
+# @authRequired
+# def proposals():
+#     return render_template('proposals.html', **getResp({'title': 'Proposals'}))
 
 
 @app.route('/api/proposals', methods=['GET'])
