@@ -12,7 +12,7 @@ from satorineuron import logging
 import socket
 import threading
 from oracle import datastream_api
-from satorilib.concepts.structs import Stream, StreamID
+from satorilib.concepts.structs import Stream, StreamId
 
 
 
@@ -195,7 +195,7 @@ class Oracle:
                 if return_port is None:
                     stream_port = max((self.streams[port] for port in self.streams))
                     stream_port += 1
-                    stream_id = Stream
+                    stream = Stream(StreamId(**data))
                     print(f"attempting to start recording a datastream {topic} on port {stream_port}")
                     threading.Thread(target=datastream_api.new_datastream, args=(stream, stream_port)).start()
                     return_port = stream_port
