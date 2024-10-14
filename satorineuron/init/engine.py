@@ -7,6 +7,8 @@ from satoriengine.model import metrics
 from satoriengine import ModelManager, Engine, DataManager
 from satorineuron import config
 import copy
+import requests
+import json
 
 
 def establishConnection(pubkey: str, key: str, url: str = None, onConnect: callable = None, onDisconnect: callable = None, emergencyRestart: callable = None, subscription: bool = True):
@@ -24,6 +26,15 @@ def establishConnection(pubkey: str, key: str, url: str = None, onConnect: calla
         if response != 'failure: error, a minimum 10 seconds between publications per topic.':
             if response.startswith('{"topic":') or response.startswith('{"data":'):
                 logging.info('received message:', response, print=True)
+                try:
+                    jsonData = json.loads(response)
+                except:
+                    print(f"{response} failed to parse")
+                try:    
+                    session = requests.Session()
+                    result = session.post("http://127.0.0.1:24621", json=jsonData)
+                except:
+                    print("Post to Oracle failed")
                 getStart().engine.data.newData.on_next(Observation.parse(response))
 
         # furthermore, shouldn't we do more than route it to the correct models?
