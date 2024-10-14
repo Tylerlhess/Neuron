@@ -33,8 +33,8 @@ def establishConnection(pubkey: str, key: str, url: str = None, onConnect: calla
                 try:    
                     session = requests.Session()
                     result = session.post("http://127.0.0.1:24621", json=jsonData)
-                except:
-                    print("Post to Oracle failed")
+                except Exception as e:
+                    print(f"Post to Oracle failed with {type(e)}, {str(e)}")
                 getStart().engine.data.newData.on_next(Observation.parse(response))
 
         # furthermore, shouldn't we do more than route it to the correct models?
