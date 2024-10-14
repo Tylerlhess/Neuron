@@ -10,6 +10,10 @@ from oracle.serverside import signmessage, verifymessage, ipfs
 from satorineuron import config
 from satorineuron import logging
 import socket
+import threading
+from oracle import datastream_api
+from satorilib.concepts.structs import Stream, StreamID
+
 
 
 class Oracle:
@@ -161,7 +165,7 @@ class Oracle:
 
     def submit_stream_data(self, topic, data):
         port = self.streams[topic]
-        Oracle.call_stream(f"rec_sub: {data}", 24621)
+        Oracle.call_stream(f"{data}", port)
 
     # def create_submitted_stream(self, json_stream: str = "{}"):
     #     try:
@@ -177,15 +181,32 @@ class Oracle:
     #                                                 api_header=api_header), False)
     #     except:
     #         return False
-        
+
+
+    def call_stream(data, port):
+        print(data)
+        pass
+
     def handle_call(self, message: str="", return_port: int=None):
         try:
-            func, args = message.split("|")
-            arg_dict = {key: value for key, value in [arg for arg in args.split(",")]}
-            if len(arg_dict.items) > 0:
-                returnable = self.actions[func](arg_dict)
-            else:
-                returnable = self.actions[func]()
+            data = json.loads(message)
+            try:
+                topic = data["topic"]
+                if return_port is None:
+                    stream_port = max((self.streams[port] for port in self.streams))
+                    stream_port += 1
+                    stream_id = Stream
+                    print(f"attempting to start recording a datastream {topic} on port {stream_port}")
+                    threading.Thread(target=datastream_api.new_datastream, args=(stream, stream_port)).start()
+                    return_port = stream_port
+                Oracle.submit_stream_data(data, return_port)
+
+                returnable = True
+                
+
+                    
+            except:
+                pass
         except:
             returnable = False    
             
