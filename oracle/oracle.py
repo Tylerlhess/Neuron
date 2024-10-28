@@ -1,7 +1,7 @@
 #from oracle.dns import DNS
-from .serverside import signmessage, verifymessage, ipfs
-from .datastream_api import new_datastream
-from .datastream import Data_Stream
+from oracle.serverside import signmessage, verifymessage, ipfs
+from oracle.datastream_api import new_datastream
+from oracle.datastream import Data_Stream
 import os
 import json
 import time
@@ -242,22 +242,5 @@ class Oracle:
         self.streams[str(port)] = requests.get(f"http://127.0.0.1:{port}/topic")
         return True
 
-
-if __name__ == "__main__":
-    while True:
-        try:
-            oracle = Oracle()
-            threading.Thread(target=Oracle.run, args=(24621)).start()
-                    
-            break
-        except ConnectionError as e:
-            # try again...
-            logging.error(f'ConnectionError in app startup: {e}', color='red')
-            time.sleep(30)
-        # except RemoteDisconnected as e:
-        except Exception as e:
-            # try again...
-            logging.error(f'Exception in app startup: {e}', color='red')
-            time.sleep(30)
 
 
