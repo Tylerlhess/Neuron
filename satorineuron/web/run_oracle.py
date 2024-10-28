@@ -7,7 +7,7 @@ if __name__ == "__main__":
     while True:
         try:
             oracle = Oracle()
-            threading.Thread(target=Oracle.run, args=([24621])).start()
+            threading.Thread(target=oracle.run, args=([24621])).start()
                     
             break
         except ConnectionError as e:
