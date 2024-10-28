@@ -5,6 +5,7 @@ import requests, time
 from oracle import oracle_errors
 import socket
 from satorilib.concepts.structs import Stream, StreamId
+from satorineuron import relay
 
 DEBUG = 1
 class Data_Stream():
@@ -47,7 +48,7 @@ class Data_Stream():
     def get_data(self, local: str = True) -> bool:
         if local:
             try:
-                data = Stream.call(self.stream)
+                data = relay.RawStreamRelayEngine.call(self.stream)
                 print(f"{data=}")
             except:
                 raise oracle_errors.NotMessage(f"No data in stream {self.stream_name}")
