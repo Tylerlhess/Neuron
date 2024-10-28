@@ -142,11 +142,16 @@ class Data_Stream():
 
     @staticmethod
     def return_message(data, port):
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            print(data, port)
-            s.connect(port)
-            s.sendall(f"{data}".encode())
-        # socket.sendall(f"{data}".encode())
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                print(data, port)
+                s.connect(port)
+                s.sendall(f"{data}".encode())
+            # socket.sendall(f"{data}".encode())
+        except Exception as e:
+            print(f"Returning data failed to {socket} using {data} :with {type(e)}: {str(e)}")
+
+
 
     def run(self):
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
