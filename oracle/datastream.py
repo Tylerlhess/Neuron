@@ -162,7 +162,7 @@ class Data_Stream():
                 self.get_data()
             client_socket, address = server_socket.accept()
             self.handle_call(socket=client_socket, return_address=address)
-            client_socket.close()
+            print(client_socket.__dict__)
 
 
     
