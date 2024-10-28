@@ -243,7 +243,7 @@ class Oracle:
                 chunk = client_socket.recv(1024)
                 if not chunk:
                     break
-                message += chunk
+                message += chunk.decode('utf-8')
             self.handle_call(message=message, return_port=port)
             client_socket.close()
             
