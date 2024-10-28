@@ -165,7 +165,7 @@ class Oracle:
 
     def submit_stream_data(self, topic, data):
         port = self.streams[topic]
-        Oracle.call_stream(f"{data}", port)
+        self.call_stream(f"{data}", port)
 
     # def create_submitted_stream(self, json_stream: str = "{}"):
     #     try:
@@ -236,7 +236,7 @@ class Oracle:
         while True:
             message, client_socket = server_socket.accept()
             self.handle_call(message=message, return_port=client_socket)
-            client_socket.close()
+            #client_socket.close()
             
     def accept_stream(self, port):
         self.streams[str(port)] = requests.get(f"http://127.0.0.1:{port}/topic")
