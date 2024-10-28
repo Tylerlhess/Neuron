@@ -198,6 +198,7 @@ class Oracle:
             received message: {"topic": "{\"source\": \"satori\", \"author\": \"022a410d73325a37cb10a17816423df2da140563502b8b37e304f55f4a2ca968b3\", \"stream\": \"CLPT.USD.10mins\", \"target\": \"results.p\"}", "data": "12.33", "time": "2024-10-14 18:50:08.077777", "hash": "2ae88a6411b2290d"}
             received message: {"topic": "{\"source\": \"satori\", \"author\": \"033744da39677b98f4de7d846d2677cd07b1b9933f00e221c1dc628d1b54c0ee94\", \"stream\": \"AISP.USD.10mins\", \"target\": \"results.p\"}", "data": "2.26", "time": "2024-10-14 18:50:01.704882", "hash": "fbc47780bf98d70c"}
         """
+        print(message)
         try:
             data = json.loads(message)
             try:
@@ -237,6 +238,7 @@ class Oracle:
         server_socket.listen(25)
         while True:
             message, client_socket = server_socket.accept()
+            print(message)
             self.handle_call(message=message, return_port=client_socket)
             #client_socket.close()
             
