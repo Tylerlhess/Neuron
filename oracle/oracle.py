@@ -226,6 +226,7 @@ class Oracle:
 
     @staticmethod
     def return_message(data, port):
+        print(f"returning {data} on {port}")
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect(('127.0.0.1', port))
             s.sendall(f"{data}".encode())
