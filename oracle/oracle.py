@@ -1,17 +1,17 @@
 #from oracle.dns import DNS
-from oracle.datastream import Data_Stream
+from .datastream import Data_Stream
 import os
 import json
 import time
 import requests
 import hashlib
 import yaml
-from oracle.serverside import signmessage, verifymessage, ipfs
+from .serverside import signmessage, verifymessage, ipfs
 from satorineuron import config
 from satorineuron import logging
 import socket
 import threading
-from oracle import datastream_api
+from .datastream_api import new_datastream
 from satorilib.concepts.structs import Stream, StreamId
 
 
@@ -207,7 +207,7 @@ class Oracle:
                     stream_port += 1
                     stream = Stream(StreamId(topic["source"], topic["author"], topic["stream"], topic["target"]))
                     print(f"attempting to start recording a datastream {topic} on port {stream_port}")
-                    threading.Thread(target=datastream_api.new_datastream, args=(stream, stream_port)).start()
+                    threading.Thread(target=new_datastream, args=(stream, stream_port)).start()
                     return_port = stream_port
                     self.streams[stream_port] = topic
                 Oracle.submit_stream_data(data, return_port)
