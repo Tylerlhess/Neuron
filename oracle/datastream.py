@@ -134,8 +134,11 @@ class Data_Stream():
         except Exception as e:
             print(type(e), str(e))
             returnable = False    
-            
-        Data_Stream.return_message(returnable, socket)
+        try:
+            Data_Stream.return_message(returnable, socket)
+        except Exception as e:
+            print(f"Returning data failed to {socket} using {returnable} :with {type(e)}: {str(e)}")
+
 
     @staticmethod
     def return_message(data, port):
