@@ -219,6 +219,7 @@ class Oracle:
             except:
                 pass
         except:
+            print(message)
             returnable = False    
             
         Data_Stream.return_message(returnable, return_port)
