@@ -1,4 +1,4 @@
-from oracle.dns import DNS
+#from oracle.dns import DNS
 from oracle.datastream import Data_Stream
 import os
 import json
