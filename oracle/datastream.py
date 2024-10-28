@@ -138,10 +138,10 @@ class Data_Stream():
         Data_Stream.return_message(returnable, socket)
 
     @staticmethod
-    def return_message(data, socket):
+    def return_message(data, port):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            print(data, socket)
-            s.connect(socket)
+            print(data, port)
+            s.connect(port)
             s.sendall(f"{data}".encode())
         # socket.sendall(f"{data}".encode())
 
