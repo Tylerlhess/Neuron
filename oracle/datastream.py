@@ -139,11 +139,11 @@ class Data_Stream():
 
     @staticmethod
     def return_message(data, socket):
-        # with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        #     print(data, port)
-        #     s.connect(port)
-        #     s.sendall(f"{data}".encode())
-        socket.sendall(f"{data}".encode())
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            print(data, socket)
+            s.connect(socket)
+            s.sendall(f"{data}".encode())
+        # socket.sendall(f"{data}".encode())
 
     def run(self):
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
