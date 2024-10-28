@@ -1,4 +1,4 @@
-from .serverside import *
+from oracle.serverside import *
 from flask import jsonify
 import json
 import requests, time

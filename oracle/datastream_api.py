@@ -1,8 +1,8 @@
-from .serverside import *
+from oracle.serverside import *
 from flask import jsonify, Flask, request
 from oracle import oracle_errors
 from satorilib.concepts.structs import Stream, StreamId
-from .datastream_for_api import Data_Stream
+from oracle.datastream_for_api import Data_Stream
 import secrets
 import threading, time
 from satorineuron import relay
