@@ -237,10 +237,15 @@ class Oracle:
         server_socket.bind(('localhost', port))
         server_socket.listen(25)
         while True:
-            message, client_socket = server_socket.accept()
-            print(message)
-            self.handle_call(message=message, return_port=client_socket)
-            #client_socket.close()
+            message = ""
+            client_socket, port = server_socket.accept()
+            while True:
+                chunk = client_socket.recv(1024)
+                if not chunk:
+                    break
+                message += chunk
+            self.handle_call(message=message, return_port=port)
+            client_socket.close()
             
     def accept_stream(self, port):
         self.streams[str(port)] = requests.get(f"http://127.0.0.1:{port}/topic")
