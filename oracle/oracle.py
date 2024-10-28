@@ -1,4 +1,6 @@
 #from oracle.dns import DNS
+from .serverside import signmessage, verifymessage, ipfs
+from .datastream_api import new_datastream
 from .datastream import Data_Stream
 import os
 import json
@@ -6,12 +8,10 @@ import time
 import requests
 import hashlib
 import yaml
-from .serverside import signmessage, verifymessage, ipfs
 from satorineuron import config
 from satorineuron import logging
 import socket
 import threading
-from .datastream_api import new_datastream
 from satorilib.concepts.structs import Stream, StreamId
 
 
